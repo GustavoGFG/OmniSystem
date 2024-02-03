@@ -1,7 +1,7 @@
 import './App.css';
-import { Button } from '@/components/ui/button';
+
 import LoginStore from './Pages/LoginStore';
-import Home from './Pages/home';
+import Home from '@/Pages/home';
 import { Routes, Route } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'remixicon/fonts/remixicon.css';

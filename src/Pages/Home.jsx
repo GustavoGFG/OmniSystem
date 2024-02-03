@@ -2,8 +2,6 @@ import Header from '@/components/Header/Header';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Dashboard from './HomePages/Dashboard';
-import DSR from './HomePages/DSR';
 
 const Home = () => {
   const [sidebarActive, setSidebarActive] = useState(true);
