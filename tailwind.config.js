@@ -24,6 +24,7 @@ module.exports = {
     extend: {
       colors: {
         newPrimary: '#007041',
+        newPrimaryDark: '#025c38',
         newBgColor: '#fbf1db',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

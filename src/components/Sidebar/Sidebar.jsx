@@ -8,7 +8,9 @@ const Sidebar = ({ sidebarActive }) => {
     <ToggleGroup type="single">
       <ul
         className={`py-[15px] px-[30px] self-start h-full w-[350px] bg-newPrimary flex flex-col gap-[20px] relative ${
-          sidebarActive ? 'translate-x-[0px]' : 'translate-x-[-350px]'
+          sidebarActive
+            ? 'translate-x-[-350px] xl:translate-x-[0px]'
+            : 'translate-x-[0px] xl:translate-x-[-350px]'
         } duration-500 z-10`}
       >
         {links.map((link, index) => (

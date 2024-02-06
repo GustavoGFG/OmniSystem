@@ -7,6 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'remixicon/fonts/remixicon.css';
 import Dashboard from './Pages/HomePages/Dashboard';
 import DSR from './Pages/HomePages/DSR';
+import Employee from './Pages/HomePages/Employee';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="home" element={<Home />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="salesreport" element={<DSR />} />
+          <Route path="employees" element={<Employee />} />
         </Route>
       </Routes>
     </div>

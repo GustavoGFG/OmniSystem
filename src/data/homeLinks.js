@@ -12,7 +12,7 @@ export const links = [
   { name: 'Inventário', page: '/home', icon: 'bi bi-list-check' },
   {
     name: 'Funcionários e Certificações',
-    page: '/home',
+    page: '/home/employees',
     icon: 'bi bi-person-vcard',
   },
 ];
