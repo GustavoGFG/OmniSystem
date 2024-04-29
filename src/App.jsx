@@ -8,6 +8,7 @@ import 'remixicon/fonts/remixicon.css';
 import Dashboard from './Pages/HomePages/Dashboard';
 import DSR from './Pages/HomePages/DSR';
 import Employee from './Pages/HomePages/Employee';
+import RequestProducts from './Pages/HomePages/RequestProducts';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="home" element={<Home />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="salesreport" element={<DSR />} />
+          <Route path="requestproducts" element={<RequestProducts />} />
           <Route path="employees" element={<Employee />} />
         </Route>
       </Routes>

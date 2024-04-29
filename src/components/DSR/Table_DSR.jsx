@@ -9,7 +9,7 @@ import {
   TableCell,
 } from '../ui/table';
 
-const DSR_Table = ({ props }) => {
+export const Table_DSR = ({ props }) => {
   const getTotalShortage = shortageArray => {
     var totalShortage = 0;
     shortageArray.forEach(mistake => {
@@ -91,5 +91,3 @@ const DSR_Table = ({ props }) => {
     </Table>
   );
 };
-
-export default DSR_Table;

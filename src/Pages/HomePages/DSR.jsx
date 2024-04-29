@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@/components/Card/Card';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -11,13 +11,36 @@ import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import DSR_Table from '@/components/TableCardsInfo/DSR_Table';
 import { sales } from '@/data/dailySales';
+
+import { Form_Modal } from '@/components/Global/Form_Modal';
+import FormikSale from '@/components/DSR/FormikSale';
+import FormikGoal from '@/components/DSR/FormikGoal';
+import { getEmployees } from '@/api/employees';
+import { Table_DSR } from '@/components/DSR/Table_DSR';
 
 const DSR = () => {
   const salesArray = sales;
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [date, setDate] = useState(new Date(2023, 0, 1));
+  const [allEmployees, setAllEmployees] = useState([]);
+
+  const fetchEmployees = async () => {
+    const response = await getEmployees();
+    if (response.success) {
+      setAllEmployees(response.data);
+    } else {
+      alert(response.error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+  const employees = allEmployees.filter(
+    employee => employee.role === 'Cashier'
+  );
+
   return (
     <>
       <div className="flex justify-between font-bold text-newPrimary font-nunito text-2xl mb-[30px] px-[10px]">
@@ -51,7 +74,25 @@ const DSR = () => {
           </PopoverContent>
         </Popover>
       </div>
-
+      <div className="flex justify-between">
+        <Form_Modal
+          button_title="Nova Meta"
+          modal_title="Nova Meta"
+          modal_description="Registre as metas do dia"
+          children={FormikGoal}
+          width={400}
+        />
+        <Form_Modal
+          button_title="Novo Relatório"
+          modal_title="Novo Relatório"
+          modal_description="Registre novo relatório diário"
+          children={(employees, setOpen) => (
+            <FormikSale child_props={employees} setOpen={setOpen} />
+          )}
+          child_props={{ employees }}
+          width={800}
+        />
+      </div>
       <div id="table">
         <Card
           props={{
@@ -59,7 +100,7 @@ const DSR = () => {
             date: 'Hoje',
             sales: salesArray,
           }}
-          children={data => <DSR_Table props={data} />}
+          children={data => <Table_DSR props={data} />}
         />
       </div>
     </>

@@ -3,7 +3,7 @@ import React from 'react';
 import SidebarLink from './SidebarLink';
 import { ToggleGroup } from '@/components/ui/toggle-group';
 
-const Sidebar = ({ sidebarActive }) => {
+const Sidebar = ({ sidebarActive, setSidebarActive }) => {
   return (
     <ToggleGroup type="single">
       <ul
@@ -14,7 +14,12 @@ const Sidebar = ({ sidebarActive }) => {
         } duration-500 z-10`}
       >
         {links.map((link, index) => (
-          <SidebarLink key={index} props={link} />
+          <SidebarLink
+            key={index}
+            props={link}
+            sidebarActive={sidebarActive}
+            setSidebarActive={setSidebarActive}
+          />
         ))}
       </ul>
     </ToggleGroup>

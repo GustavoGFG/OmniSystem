@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ToggleGroupItem } from '@/components/ui/toggle-group';
 
-const SidebarLink = ({ props }) => {
+const SidebarLink = ({ props, sidebarActive, setSidebarActive }) => {
   return (
-    <Link to={props.page}>
+    <Link to={props.page} onClick={() => setSidebarActive(!sidebarActive)}>
       <ToggleGroupItem
         value={props.name}
         aria-label={`Toggle ${props.name}`}

@@ -1,5 +1,5 @@
-import Header from '@/components/Header/Header';
-import Sidebar from '@/components/Sidebar/Sidebar';
+import Header from '@/components/Global/Header/Header';
+import Sidebar from '@/components/Global/Sidebar/Sidebar';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
@@ -12,7 +12,10 @@ const Home = () => {
         setSidebarActive={setSidebarActive}
       />
       <main className="flex min-h-[calc(100vh-60px)] ">
-        <Sidebar sidebarActive={sidebarActive} />
+        <Sidebar
+          sidebarActive={sidebarActive}
+          setSidebarActive={setSidebarActive}
+        />
         <div
           className={`py-[15px] px-[20px] flex-1 w-full fixed right-[0px] bottom-[0px] top-[60px] left-[0px] overflow-y-auto ${
             sidebarActive

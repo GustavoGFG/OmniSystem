@@ -1,9 +1,34 @@
 import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login, signup } from '@/api/login-signup';
+import { useState } from 'react';
 
 const LoginStore = () => {
+  const [registered, setRegistered] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [cpf, setCpf] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    setLoading(true);
+    const response = await login(cpf, password, navigate);
+    setLoading(false);
+    if (response) {
+      navigate('/home/dashboard'); // Redirect to '/home/dashboard' after successful login
+    }
+  };
+  const handleSignup = async () => {
+    setLoading(true);
+    const response = await signup(cpf, password, navigate);
+    setLoading(false);
+    if (response) {
+      navigate('/home/dashboard'); // Redirect to '/home/dashboard' after successful login
+    }
+  };
+
   return (
     <div className="min-h-screen w-full flex flex-col-reverse  px-2  py-[80px] items-center justify-center gap-[60px] md:flex-row 2xl:px-[400px] xl:px-[200px] lg:px-[100px] md:px-5">
       <div className="flex-col items-center justify-center flex-1 px-[0%] w-[330px] md:w-[400px] m-auto">
@@ -21,29 +46,54 @@ const LoginStore = () => {
           <AvatarImage src="https://logodownload.org/wp-content/uploads/2014/07/Starbucks-logo.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <select
-          name=""
-          id=""
-          className="border-[1px] bg-zinc-50 w-full border-zinc-400 px-4 py-1 rounded-md min-h-[40px]"
-        >
-          <option value="200">200 - Aeroporto Confins P1</option>
-          <option value="201">201 - Aeroporto Confins P2</option>
-          <option value="202">202 - Aeroporto Confins Mezanino</option>
-        </select>
         <input
           type="text"
+          name="cpf"
+          className="border-[1px] bg-zinc-50 w-full border-zinc-400 px-4 py-1 rounded-md min-h-[40px]"
+          placeholder="CPF"
+          value={cpf}
+          onChange={e => setCpf(e.target.value)}
+          disabled={loading}
+        />
+
+        <input
+          type="password"
           name="password"
           className="border-[1px] bg-zinc-50 w-full border-zinc-400 px-4 py-1 rounded-md min-h-[40px]"
           placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          disabled={loading}
         />
-        <Link className="w-full" to="/home">
-          <Button className="bg-newPrimary text-white font-bold w-full mt-[30px]">
-            Login
-          </Button>
-        </Link>
-        <a href="#" className="text-[#1877f2]">
-          Forgot Passoword?
-        </a>
+        <Button
+          className="w-full"
+          variant={'omnisystem'}
+          onClick={() => {
+            registered
+              ? handleLogin(cpf, password)
+              : handleSignup(cpf, password);
+          }}
+          disabled={loading}
+        >
+          {registered ? 'Login' : 'Sign up'}
+        </Button>
+        <div className="text-gray-500">
+          {registered ? 'Not registered?' : 'Already registered?'}{' '}
+          <button
+            className="text-newPrimary cursor-pointer disabled:cursor-not-allowed disabled:text-gray-300"
+            onClick={() => setRegistered(!registered)}
+            disabled={loading}
+          >
+            {registered ? 'Create an account' : 'Login'}
+          </button>
+        </div>
+        <button
+          href="#"
+          className="text-newPrimary cursor-pointer disabled:cursor-not-allowed disabled:text-gray-300"
+          disabled={loading}
+        >
+          Forgot Password?
+        </button>
       </div>
     </div>
   );

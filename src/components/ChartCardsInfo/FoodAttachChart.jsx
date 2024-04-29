@@ -13,7 +13,7 @@ const FoodAttachChart = ({ props }) => {
         type: 'radialBar',
       },
       series: [(props.foodAttach * 100).toFixed(0)],
-      labels: ['Progress'],
+
       stroke: {
         lineCap: 'round',
       },
@@ -39,7 +39,7 @@ const FoodAttachChart = ({ props }) => {
             showOn: 'always',
             name: {
               offsetY: -5,
-              show: true,
+              show: false,
               color: '#3c1c08',
               fontSize: '13px',
             },
