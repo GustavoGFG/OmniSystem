@@ -44,8 +44,8 @@ const Employee = () => {
             filterArray: [
               { label: 'Nome', value: 'full_name' },
               { label: 'Cargo', value: 'role' },
-              { label: 'Contratação', value: 'hire_date' },
-              { label: 'Vendas', value: 'Sale' },
+              { label: 'Admissão', value: 'hire_date' },
+              { label: 'Demissão', value: 'resign_date' },
               { label: 'Ticket Médio', value: 'at' },
               { label: 'Erro de Caixa', value: 'Mistake' },
             ],

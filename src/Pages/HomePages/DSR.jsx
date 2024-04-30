@@ -141,6 +141,7 @@ const DSR = () => {
               { label: 'Lucro', value: 'profitloss' },
               { label: 'Transação', value: 'transaction' },
               { label: 'Ticket Médio', value: 'at' },
+              { label: 'Food Attach', value: 'food_attach' },
               { label: 'Agregação', value: 'addons' },
               { label: 'Erro de Caixa', value: 'mistake' },
             ],

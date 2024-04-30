@@ -27,7 +27,7 @@ const Card = ({ props, children }) => {
         {props.filterArray && (
           <div className="flex items-center gap-2">
             <ArrowUp
-              className={`${ascendent ? '' : 'rotate-180'}`}
+              className={`${ascendent ? '' : 'rotate-180'} text-black/30 hover:text-black cursor-pointer transition-all duration-300 transform`}
               onClick={() => {
                 setAscendent(!ascendent);
               }}
