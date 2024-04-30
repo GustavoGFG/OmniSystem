@@ -1,4 +1,4 @@
-import Card from '@/components/Card/Card';
+import Card from '@/components/Global/Card';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,

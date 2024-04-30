@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Card from '@/components/Card/Card';
+import Card from '@/components/Global/Card';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -11,19 +11,26 @@ import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { sales } from '@/data/dailySales';
+// import { sales } from '@/data/dailySales';
 
 import { Form_Modal } from '@/components/Global/Form_Modal';
 import FormikSale from '@/components/DSR/FormikSale';
 import FormikGoal from '@/components/DSR/FormikGoal';
 import { getEmployees } from '@/api/employees';
 import { Table_DSR } from '@/components/DSR/Table_DSR';
+import { getGoals } from '@/api/goals';
+import { getSales } from '@/api/sales';
+import { getMistakes } from '@/api/mistakes';
+import { createSumaryTable } from '@/utils/sumaryTable';
 
 const DSR = () => {
-  const salesArray = sales;
+  // const salesArray = sales;
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [date, setDate] = useState(new Date(2023, 0, 1));
   const [allEmployees, setAllEmployees] = useState([]);
+  const [goals, setGoals] = useState([]);
+  const [sales, setSales] = useState([]);
+  const [mistakes, setMistakes] = useState([]);
 
   const fetchEmployees = async () => {
     const response = await getEmployees();
@@ -34,8 +41,36 @@ const DSR = () => {
     }
   };
 
+  const fetchGoals = async () => {
+    const response = await getGoals();
+    if (response.success) {
+      setGoals(response.data);
+    } else {
+      alert(response.error);
+    }
+  };
+  const fetchSales = async () => {
+    const response = await getSales();
+    if (response.success) {
+      setSales(response.data);
+    } else {
+      alert(response.error);
+    }
+  };
+  const fetchMistakes = async () => {
+    const response = await getMistakes();
+    if (response.success) {
+      setMistakes(response.data);
+    } else {
+      alert(response.error);
+    }
+  };
+  const salesArray = createSumaryTable(goals, sales, mistakes);
   useEffect(() => {
+    fetchSales();
+    fetchMistakes();
     fetchEmployees();
+    fetchGoals();
   }, []);
   const employees = allEmployees.filter(
     employee => employee.role === 'Cashier'
@@ -99,6 +134,16 @@ const DSR = () => {
             title: 'Venda',
             date: 'Hoje',
             sales: salesArray,
+            filterArray: [
+              { label: 'Data', value: 'date' },
+              { label: 'Venda', value: 'value' },
+              { label: 'Meta', value: 'value_goal' },
+              { label: 'Lucro', value: 'profitloss' },
+              { label: 'Transação', value: 'transaction' },
+              { label: 'Ticket Médio', value: 'at' },
+              { label: 'Agregação', value: 'addons' },
+              { label: 'Erro de Caixa', value: 'mistake' },
+            ],
           }}
           children={data => <Table_DSR props={data} />}
         />

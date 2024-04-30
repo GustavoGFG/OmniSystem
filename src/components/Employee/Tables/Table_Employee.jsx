@@ -35,7 +35,7 @@ export const Table_Employee = ({ props }) => {
             : 0;
 
         // Calculate Sale
-        newStaff.Sale =
+        newStaff.at =
           staff.Sale.length > 0
             ? staff.Sale.reduce(
                 (accumulator, sale) => accumulator + sale.value,
@@ -50,13 +50,17 @@ export const Table_Employee = ({ props }) => {
       });
 
       // Sort the updated array
-      const sortedStaff = sortByKey(updatedEmployees, props.filter);
+      const sortedStaff = sortByKey(
+        updatedEmployees,
+        props.filter,
+        props.ascendent
+      );
 
       // Update the state
       setEmployees(sortedStaff);
       setLoading(false);
     }
-  }, [props.staff, props.filter]);
+  }, [props.staff, props.filter, props.ascendent]);
 
   return (
     <>
@@ -98,15 +102,25 @@ export const Table_Employee = ({ props }) => {
                   <TableCell className="text-center">
                     {staff.resign_date ? staff.resign_date : '-'}
                   </TableCell>
-                  <TableCell
-                    className={`text-center font-bold min-w-[120px] ${staff.Sale >= 0 ? 'text-green-600' : 'text-red-500'}`}
-                  >
-                    {staff.Sale ? 'R$ ' + staff.Sale.toFixed(2) : '-'}
+                  <TableCell className={`text-center min-w-[120px] `}>
+                    {staff.at
+                      ? 'R$ ' +
+                        Number(staff.at.toFixed(2)).toLocaleString('pt-BR', {
+                          style: 'decimal',
+                          minimumFractionDigits: 2,
+                        })
+                      : '-'}
                   </TableCell>
                   <TableCell
                     className={`text-center font-bold min-w-[120px] ${staff.Mistake >= 0 ? 'text-green-600' : 'text-red-500'}`}
                   >
-                    {staff.Mistake ? 'R$ ' + staff.Mistake.toFixed(2) : '-'}
+                    {staff.Mistake
+                      ? 'R$ ' +
+                        staff.Mistake.toLocaleString('pt-BR', {
+                          style: 'decimal',
+                          minimumFractionDigits: 2,
+                        })
+                      : '-'}
                   </TableCell>
                 </TableRow>
               );

@@ -88,9 +88,9 @@ export const transformToInteger = text => {
 };
 // SORTING ARRAYS
 
-export const sortByKey = (data, key) => {
+export const sortByKey = (data, key, ascendent) => {
   return [...data].sort((a, b) => {
-    if (key === 'Sale') {
+    if (ascendent) {
       if (a[key] < b[key]) return 1;
       if (a[key] > b[key]) return -1;
       return 0;

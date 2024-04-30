@@ -1,4 +1,4 @@
-import Card from '@/components/Card/Card';
+import Card from '@/components/Global/Card';
 import React, { useEffect, useState } from 'react';
 import { Form_Employee } from '@/components/Employee/Forms/Form_Employee';
 import { getEmployees } from '@/api/employees';
@@ -46,7 +46,8 @@ const Employee = () => {
               { label: 'Cargo', value: 'role' },
               { label: 'Contratação', value: 'hire_date' },
               { label: 'Vendas', value: 'Sale' },
-              { label: 'Erros', value: 'Mistake' },
+              { label: 'Ticket Médio', value: 'at' },
+              { label: 'Erro de Caixa', value: 'Mistake' },
             ],
           }}
           children={data => <Table_Employee props={data} />}

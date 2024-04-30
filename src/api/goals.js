@@ -2,7 +2,7 @@ import { req, reqdev } from './axios';
 
 export const getGoals = async () => {
   try {
-    const json = req.get('/salesgoal');
+    const json = await req.get('/salesgoal');
     return json.data;
   } catch (error) {
     alert(error.response.data.error);

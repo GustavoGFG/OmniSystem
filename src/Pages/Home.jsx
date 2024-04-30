@@ -1,12 +1,13 @@
 import Header from '@/components/Global/Header/Header';
 import Sidebar from '@/components/Global/Sidebar/Sidebar';
+import { DataContext } from '@/contexts/DataContext';
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 const Home = () => {
   const [sidebarActive, setSidebarActive] = useState(true);
   return (
-    <>
+    <DataContext.Provider value={{}}>
       <Header
         sidebarActive={sidebarActive}
         setSidebarActive={setSidebarActive}
@@ -26,7 +27,7 @@ const Home = () => {
           <Outlet />
         </div>
       </main>
-    </>
+    </DataContext.Provider>
   );
 };
 
