@@ -1,24 +1,10 @@
 import Card from '@/components/Global/Card';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Form_Employee } from '@/components/Employee/Forms/Form_Employee';
-import { getEmployees } from '@/api/employees';
 import { Form_Modal } from '@/components/Global/Form_Modal';
 import { Table_Employee } from '@/components/Employee/Tables/Table_Employee';
 
 const Employee = () => {
-  const [staff, setStaff] = useState([]);
-
-  const fetchEmployeesSql = async () => {
-    const response = await getEmployees();
-    if (response.success) {
-      setStaff(response.data);
-    }
-  };
-
-  useEffect(() => {
-    fetchEmployeesSql();
-  }, []);
-
   return (
     <>
       <div className="flex justify-between font-bold text-newPrimary font-nunito text-2xl mb-[30px] px-[10px]">
@@ -29,8 +15,7 @@ const Employee = () => {
           button_title="Novo Colaborador"
           modal_title="Novo Colaborador"
           modal_description="Cadastre um novo colaborador"
-          children={setStaff => <Form_Employee child_props={setStaff} />}
-          child_props={setStaff}
+          children={Form_Employee}
           width={400}
         />
       </div>
@@ -40,14 +25,13 @@ const Employee = () => {
           props={{
             title: 'Colaboradores',
             date: 'Hoje',
-            staff: staff,
             filterArray: [
               { label: 'Nome', value: 'full_name' },
               { label: 'Cargo', value: 'role' },
               { label: 'Admissão', value: 'hire_date' },
               { label: 'Demissão', value: 'resign_date' },
-              { label: 'Ticket Médio', value: 'at' },
-              { label: 'Erro de Caixa', value: 'Mistake' },
+              { label: 'Ticket Médio', value: 'average_ticket' },
+              { label: 'Erro de Caixa', value: 'mistake' },
             ],
           }}
           children={data => <Table_Employee props={data} />}

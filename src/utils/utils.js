@@ -60,7 +60,9 @@ export const transformToCurrency = value => {
     currency: 'BRL',
   });
 };
-
+export const transformToPercentage = (value, n) => {
+  return (value * 100).toFixed(n) + '%';
+};
 export const transformToFloat = text => {
   // Replace all characters other than 0-9, ".", ",", and "-"
   const cleanedText = text.replace(/[^0-9.,]/g, '');

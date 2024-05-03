@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const FoodAttachChart = ({ props }) => {
+const Chart_RBar = ({ props }) => {
   const defaultOptions = {
     options: {
       chart: {
@@ -75,4 +75,4 @@ const FoodAttachChart = ({ props }) => {
   );
 };
 
-export default FoodAttachChart;
+export default Chart_RBar;

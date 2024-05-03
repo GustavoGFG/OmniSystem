@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { format } from 'date-fns';
 import {
   Table,
@@ -8,60 +8,65 @@ import {
   TableRow,
   TableCell,
 } from '../../ui/table';
-import { sortByKey, transformCPFtoString } from '@/utils/utils';
+import {
+  sortByKey,
+  transformCPFtoString,
+  transformToCurrency,
+} from '@/utils/utils';
 import { useState, useEffect } from 'react';
-import Loading from '../../Loading';
+import Loading from '../../Global/Loading';
 import { roles } from '@/data/data';
+import { DataContext } from '@/contexts/DataContext';
 
 export const Table_Employee = ({ props }) => {
-  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { employee } = useContext(DataContext);
+  const [employeeSumary, setEmployeeSumary] = useState([]);
 
-  useEffect(() => {
-    setLoading(true);
-
-    if (props.staff) {
+  const dataProcessing = () => {
+    if (employee) {
       // Create a new array with updated values
-      const updatedEmployees = props.staff.map(staff => {
-        let newStaff = { ...staff }; // Create a copy of staff object
-
-        // Calculate Mistake
-        newStaff.Mistake =
-          staff.Mistake && staff.Mistake.length > 0
-            ? staff.Mistake.reduce(
-                (accumulator, mistake) => accumulator + mistake.value,
+      const processedData = employee.map(staff => {
+        const obj = { ...staff };
+        // GERANDO MISTAKE MÉDIO
+        obj.mistake =
+          staff.Mistake.length == 0
+            ? 0
+            : staff.Mistake.reduce(
+                (accumulator, mistake) => (accumulator += mistake.value),
                 0
-              ) / (staff.Sale.length > 0 ? staff.Sale.length : 1)
-            : 0;
-
-        // Calculate Sale
-        newStaff.at =
-          staff.Sale.length > 0
-            ? staff.Sale.reduce(
-                (accumulator, sale) => accumulator + sale.value,
+              ) / staff.Sale.length;
+        // GERANDO MÉDIA DO TICKET MÉDIO
+        obj.average_ticket =
+          staff.Sale.length == 0
+            ? 0
+            : staff.Sale.reduce(
+                (accumulator, sale) => (accumulator += sale.value),
                 0
               ) /
               staff.Sale.reduce(
-                (accumulator, sale) => accumulator + sale.transaction,
+                (accumulator, sale) => (accumulator += sale.transaction),
                 0
-              )
-            : 0;
-        return newStaff;
+              );
+
+        return obj;
       });
-
-      // Sort the updated array
-      const sortedStaff = sortByKey(
-        updatedEmployees,
-        props.filter,
-        props.ascendent
+      setEmployeeSumary(
+        sortByKey(processedData, props.filter, props.ascendent)
       );
+    }
+  };
 
-      // Update the state
-      setEmployees(sortedStaff);
+  useEffect(() => {
+    setLoading(true);
+    dataProcessing();
+  }, [employee, props.filter, props.ascendent]);
+
+  useEffect(() => {
+    if (employeeSumary.length > 0) {
       setLoading(false);
     }
-  }, [props.staff, props.filter, props.ascendent]);
-
+  }, [employeeSumary]);
   return (
     <>
       <Table>
@@ -79,9 +84,9 @@ export const Table_Employee = ({ props }) => {
             </TableHead>
           </TableRow>
         </TableHeader>
-        {!loading && (
+        {employeeSumary != [] && !loading && (
           <TableBody>
-            {employees.map((staff, i) => {
+            {employeeSumary.map((staff, i) => {
               return (
                 <TableRow key={i}>
                   <TableCell className="text-center min-w-[170px]">
@@ -97,30 +102,23 @@ export const Table_Employee = ({ props }) => {
                     {roles.find(role => role.value == staff.role).label}
                   </TableCell>
                   <TableCell className="text-center ">
-                    {format(staff.hire_date, 'dd/MM/yyyy')}
+                    {format(
+                      staff.hire_date.split('T')[0] + 'T03:00:00Z',
+                      'dd/MM/yyyy'
+                    )}
                   </TableCell>
                   <TableCell className="text-center">
                     {staff.resign_date ? staff.resign_date : '-'}
                   </TableCell>
                   <TableCell className={`text-center min-w-[120px] `}>
-                    {staff.at
-                      ? 'R$ ' +
-                        Number(staff.at.toFixed(2)).toLocaleString('pt-BR', {
-                          style: 'decimal',
-                          minimumFractionDigits: 2,
-                        })
+                    {staff.average_ticket
+                      ? transformToCurrency(staff.average_ticket)
                       : '-'}
                   </TableCell>
                   <TableCell
-                    className={`text-center font-bold min-w-[120px] ${staff.Mistake >= 0 ? 'text-green-600' : 'text-red-500'}`}
+                    className={`text-center ${staff.mistake ? 'font-bold' : ''} min-w-[120px] ${staff.mistake > 0 ? 'text-green-600' : staff.mistake < 0 ? 'text-red-500' : ''}`}
                   >
-                    {staff.Mistake
-                      ? 'R$ ' +
-                        staff.Mistake.toLocaleString('pt-BR', {
-                          style: 'decimal',
-                          minimumFractionDigits: 2,
-                        })
-                      : '-'}
+                    {staff.mistake ? transformToCurrency(staff.mistake) : '-'}
                   </TableCell>
                 </TableRow>
               );

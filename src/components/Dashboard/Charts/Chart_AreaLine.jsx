@@ -3,7 +3,7 @@ import { Chart as ChartJS, defaults } from 'chart.js/auto';
 import { Bar, Line } from 'react-chartjs-2';
 // import Chart from 'react-apexcharts';
 
-const SalesXGoals = ({ props }) => {
+const Chart_AreaLine = ({ props }) => {
   const PL = [];
   for (let i in props.saleArray) {
     PL[i] = `P&L: ${props.saleArray[i] - props.goalArray[i]}`;
@@ -72,4 +72,4 @@ const SalesXGoals = ({ props }) => {
   );
 };
 
-export default SalesXGoals;
+export default Chart_AreaLine;

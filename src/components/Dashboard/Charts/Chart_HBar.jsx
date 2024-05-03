@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const HorizontalBarChart = ({ props }) => {
+const Chart_HBar = ({ props }) => {
   if (props.typeOfData === 'Ticket') {
     const topAverageTickets = props.staffInfo
       .sort((staff1, staff2) => {
@@ -65,4 +65,4 @@ const HorizontalBarChart = ({ props }) => {
   );
 };
 
-export default HorizontalBarChart;
+export default Chart_HBar;

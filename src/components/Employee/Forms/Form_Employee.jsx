@@ -9,8 +9,11 @@ import { Formik_Selector } from '@/components/Global/Formik_Selector';
 import { Formik_Input } from '@/components/Global/Formik_Input';
 import { transformCPF, transformFullName } from '@/utils/utils';
 import { roles } from '@/data/data';
+import { useContext } from 'react';
+import { DataContext } from '@/contexts/DataContext';
 
-export const Form_Employee = ({ setStaff }) => {
+export const Form_Employee = () => {
+  const { setEmployee } = useContext(DataContext);
   const formik = useFormik({
     initialValues: {
       full_name: '',
@@ -25,7 +28,7 @@ export const Form_Employee = ({ setStaff }) => {
       if (response.success) {
         const data = await getEmployees();
         if (data.success) {
-          setStaff(data.data);
+          setEmployee(data.data);
         }
         actions.resetForm();
       } else {

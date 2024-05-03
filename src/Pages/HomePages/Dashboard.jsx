@@ -8,19 +8,24 @@ import {
 import { Button } from '@/components/ui/button';
 
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import {
+  Calendar as CalendarIcon,
+  DollarSign,
+  Users,
+  ShoppingCart,
+  Utensils,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
-
-import FoodAttachChart from '@/components/ChartCardsInfo/FoodAttachChart';
-import HorizontalBarChart from '@/components/ChartCardsInfo/HorizontalBarChart';
-import SalesXGoals from '@/components/ChartCardsInfo/SalesXGoalsChart';
-import MiniCardInfo from '@/components/MiniCardInfo';
-import ShortageOfDayTable from '@/components/TableCardsInfo/ShortageOfDayTable';
+import MiniCardInfo from '@/components/Dashboard/MiniCardInfo';
 
 import { sales } from '@/data/dailySales';
 import { staff } from '@/data/staff';
 
 import React, { useEffect, useState } from 'react';
+import Table_DailyMistakes from '@/components/Dashboard/Tables/Table_DailyMistakes';
+import Chart_HBar from '@/components/Dashboard/Charts/Chart_HBar';
+import Chart_RBar from '@/components/Dashboard/Charts/Chart_RBar';
+import Chart_AreaLine from '@/components/Dashboard/Charts/Chart_AreaLine';
 
 const Dashboard = () => {
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -86,7 +91,7 @@ const Dashboard = () => {
               props={{
                 title: 'Venda',
                 value: filteredDay.sale,
-                icon: 'ri-money-dollar-circle-line',
+                icon: <DollarSign size={40} />,
                 reference: filteredDay.goal,
                 date: 'Hoje',
               }}
@@ -98,7 +103,7 @@ const Dashboard = () => {
               props={{
                 title: 'Transações',
                 value: filteredDay.transactions,
-                icon: 'ri-team-fill',
+                icon: <Users size={40} />,
                 reference: 500,
                 date: 'Hoje',
               }}
@@ -110,7 +115,7 @@ const Dashboard = () => {
               props={{
                 title: 'Ticket Médio',
                 value: filteredDay.averageTicket,
-                icon: 'ri-shopping-basket-fill',
+                icon: <ShoppingCart size={40} />,
                 reference: 33,
                 date: 'Hoje',
               }}
@@ -122,7 +127,7 @@ const Dashboard = () => {
               props={{
                 title: 'Agregações',
                 value: filteredDay.modifierPercentage,
-                icon: 'ri-restaurant-line',
+                icon: <Utensils size={40} />,
                 reference: 0.1,
                 date: 'Hoje',
               }}
@@ -139,7 +144,7 @@ const Dashboard = () => {
                 goalArray: filteredGoals,
                 date: 'Janeiro',
               }}
-              children={data => <SalesXGoals props={data} />}
+              children={data => <Chart_AreaLine props={data} />}
             />
           </div>
           <div className="col-span-4 min-[1100px]:col-span-1">
@@ -150,7 +155,7 @@ const Dashboard = () => {
                 reference: 0.7,
                 date: 'Hoje',
               }}
-              children={data => <FoodAttachChart props={data} />}
+              children={data => <Chart_RBar props={data} />}
             />
           </div>
         </div>
@@ -163,7 +168,7 @@ const Dashboard = () => {
                 staffInfo: staffInfo,
                 date: 'Hoje',
               }}
-              children={data => <ShortageOfDayTable props={data} />}
+              children={data => <Table_DailyMistakes props={data} />}
             />
           </div>
           <div className="col-span-4 min-[650px]:col-span-2 min-[1600px]:col-span-1">
@@ -176,7 +181,7 @@ const Dashboard = () => {
                 color: '#ef4444',
                 date: 'Janeiro',
               }}
-              children={data => <HorizontalBarChart props={data} />}
+              children={data => <Chart_HBar props={data} />}
             />
           </div>
           <div className="col-span-4 min-[650px]:col-span-2 min-[1600px]:col-span-1">
@@ -189,7 +194,7 @@ const Dashboard = () => {
                 color: '#007041',
                 date: 'Janeiro',
               }}
-              children={data => <HorizontalBarChart props={data} />}
+              children={data => <Chart_HBar props={data} />}
             />
           </div>
         </div>

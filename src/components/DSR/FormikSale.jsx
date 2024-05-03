@@ -5,11 +5,14 @@ import { getSales } from '@/api/sales';
 import { getMistakes } from '@/api/mistakes';
 import { Form_Mistake } from './Forms/Form_Mistake';
 import { Form_Sale } from './Forms/Form_Sale';
+import { useContext } from 'react';
+import { DataContext } from '@/contexts/DataContext';
 
-const FormikSale = ({ child_props, setOpen }) => {
+const FormikSale = ({ setOpen }) => {
   const [page, setPage] = useState('sales');
 
-  const { employees } = child_props;
+  const { employee } = useContext(DataContext);
+  const cashiers = employee.filter(employee => employee.role == 'Cashier');
 
   const [salesArray, setSalesArray] = useState([]);
   const [mistakesArray, setMistakesArray] = useState([]);
@@ -74,7 +77,7 @@ const FormikSale = ({ child_props, setOpen }) => {
       {page == 'sales' && (
         <Form_Sale
           formik={formik_sale}
-          employees={employees}
+          employees={cashiers}
           setPage={setPage}
           salesArray={salesArray}
           setSalesArray={setSalesArray}
@@ -83,7 +86,7 @@ const FormikSale = ({ child_props, setOpen }) => {
       {page == 'mistakes' && (
         <Form_Mistake
           formik={formik_mistake}
-          employees={employees}
+          employees={cashiers}
           setPage={setPage}
           mistakesArray={mistakesArray}
           setMistakesArray={setMistakesArray}

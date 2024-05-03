@@ -9,8 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { transformToCurrency } from '@/utils/utils';
 
-const ShortageOfDayTable = ({ props }) => {
+const Table_DailyMistakes = ({ props }) => {
   var totalMistake = 0;
   props.dayInfo.cashierShortage.forEach(mistake => {
     totalMistake += mistake.value;
@@ -47,14 +48,11 @@ const ShortageOfDayTable = ({ props }) => {
                 <TableCell>{index + 'FF38012'}</TableCell>
                 <TableCell
                   className={`min-w-[100px] text-right  ${
-                    mistake.value > 0 ? 'text-newPrimary' : 'text-destructive'
+                    mistake.value > 0 ? 'text-green-600' : 'text-red-500'
                   }`}
-                >{`${mistake.value < 0 ? '-' : ''} R$ ${Math.abs(
-                  mistake.value
-                ).toLocaleString('pt-BR', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                })}`}</TableCell>
+                >
+                  {transformToCurrency(mistake.value)}
+                </TableCell>
               </TableRow>
             )
         )}
@@ -65,18 +63,11 @@ const ShortageOfDayTable = ({ props }) => {
             Total
           </TableCell>
           <TableCell
-            className={`min-w-[100px] text-right  ${
-              totalMistake > 0
-                ? 'text-newPrimary font-bold'
-                : 'text-destructive'
+            className={`min-w-[100px] text-right  font-bold ${
+              totalMistake > 0 ? 'text-green-600' : 'text-red-500'
             }`}
           >
-            {`${totalMistake < 0 ? '-' : ''}
-                R$
-                ${Math.abs(totalMistake).toLocaleString('pt-BR', {
-                  style: 'decimal',
-                  minimumFractionDigits: 2,
-                })}`}
+            {transformToCurrency(totalMistake)}
           </TableCell>
         </TableRow>
       </TableFooter>
@@ -84,4 +75,4 @@ const ShortageOfDayTable = ({ props }) => {
   );
 };
 
-export default ShortageOfDayTable;
+export default Table_DailyMistakes;

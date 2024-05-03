@@ -4,7 +4,10 @@ const MiniCardInfo = ({ props }) => {
   return (
     <div className="flex gap-3">
       <div className="h-[60px] w-[60px] bg-slate-100 rounded-full flex items-center justify-center">
-        <i className={`text-[35px] text-newPrimary ${props.icon}`}></i>
+        {/* {props.icon && (
+          <i className={`text-[35px] text-newPrimary ${props.icon}`}></i>
+        )} */}
+        <span className="text-newPrimary">{props.icon}</span>
       </div>
       <div className="p-[4px]">
         <p
