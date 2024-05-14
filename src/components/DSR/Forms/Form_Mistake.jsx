@@ -10,6 +10,7 @@ import { Selector_Employee } from '../../Global/Selector_Employee';
 import { Formik_Selector } from '../../Global/Formik_Selector';
 import { Button } from '../../ui/button';
 import { Table_Mistakes } from '../Tables/Table_Mistakes';
+import { useToast } from '@/components/ui/use-toast';
 
 export const Form_Mistake = ({
   formik,
@@ -20,6 +21,7 @@ export const Form_Mistake = ({
   salesArray,
   setOpen,
 }) => {
+  const { toast } = useToast();
   const [mistakeIndex, setMistakeIndex] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -47,11 +49,12 @@ export const Form_Mistake = ({
           setLoading(false);
         }
       } else {
-        alert('Erro ao salvar vendas: ', salesResponse.error);
+        toast({ variant: 'destructive', description: salesResponse.error });
+        // alert('Erro ao salvar vendas: ', salesResponse.error);
         setLoading(false);
       }
     } catch (error) {
-      alert(error);
+      toast({ variant: 'destructive', description: error });
       setLoading(false);
     }
   };

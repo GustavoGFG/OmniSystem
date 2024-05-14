@@ -3,6 +3,8 @@ import React from 'react';
 import { Form_Employee } from '@/components/Employee/Forms/Form_Employee';
 import { Form_Modal } from '@/components/Global/Form_Modal';
 import { Table_Employee } from '@/components/Employee/Tables/Table_Employee';
+import { Toast } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/toaster';
 
 const Employee = () => {
   return (
@@ -37,6 +39,7 @@ const Employee = () => {
           children={data => <Table_Employee props={data} />}
         />
       </div>
+      <Toaster />
     </>
   );
 };

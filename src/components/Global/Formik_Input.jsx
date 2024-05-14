@@ -12,10 +12,12 @@ export const Formik_Input = ({ label, type, formikKey, formik, transform }) => {
         name={formikKey}
         onBlur={formik.handleBlur}
         onChange={e => {
+          transform ? console.log(transform(e.target.value)) : '';
           formik.setFieldValue(
             formikKey,
             transform ? transform(e.target.value) : e.target.value
           );
+          console.log(formik.values);
           formik.handleChange;
         }}
         value={formik.values[formikKey]}

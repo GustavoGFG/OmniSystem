@@ -23,6 +23,7 @@ export const addEmployees = async data => {
     ) {
       return { success: false, error: 'CPF já cadastrado' };
     }
-    return { success: false, error: 'Erro no servidor' };
+    // return { success: false, error: 'Erro no servidor' };
+    return { success: false, error: error.response.data.error };
   }
 };

@@ -1,5 +1,7 @@
 // FORMIK
 
+import { format } from 'date-fns';
+
 export const defineFormikValues = async (key, value, reset, formiks) => {
   await formiks.setFieldValue(key, value);
   await formiks.setFieldTouched(key, reset);
@@ -80,12 +82,33 @@ export const transformToFloat = text => {
   let finalText = text.startsWith('-')
     ? '-' + onlyTwoDecimals
     : onlyTwoDecimals;
+  finalText = parseFloat(finalText);
+  return finalText;
+};
+export const transformToAddons = text => {
+  // Replace all characters other than 0-9, ".", ",", and "-"
+  const cleanedText = text.replace(/[^0-9.,]/g, '');
 
+  // Replace "," with "."
+  const commaReplaced = cleanedText.replace(/,/g, '.');
+
+  // Remove all dots except the first one typed
+  let dotReplaced = commaReplaced
+    .replace(/(?<!\d)\.|^\.|-\./g, '')
+    .replace(/(?<=\..*)\./g, '');
+
+  const onlyThreeDecimals = dotReplaced.replace(/(\.\d\d\d)\d*/, '$1');
+  // Ensure that the "-" remains at the beginning of the string if present
+  let finalText = text.startsWith('-')
+    ? '-' + onlyThreeDecimals
+    : onlyThreeDecimals;
+  finalText = parseFloat(finalText);
   return finalText;
 };
 
 export const transformToInteger = text => {
-  const cleanedText = text.replace(/[^\d]/g, '');
+  let cleanedText = text.replace(/[^\d]/g, '');
+  cleanedText = parseInt(cleanedText);
   return cleanedText;
 };
 // SORTING ARRAYS
@@ -103,3 +126,13 @@ export const sortByKey = (data, key, ascendent) => {
     }
   });
 };
+
+// // CALENDAR
+// export const formatCaption = (date, options) => {
+//   date = format(date, 'MMMM yyyy', { locale: options?.locale });
+//   return (
+//     <>
+//       <span>{capitalizeWords(date)}</span>
+//     </>
+//   );
+// };

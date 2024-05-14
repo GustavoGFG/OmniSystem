@@ -11,8 +11,10 @@ import { transformCPF, transformFullName } from '@/utils/utils';
 import { roles } from '@/data/data';
 import { useContext } from 'react';
 import { DataContext } from '@/contexts/DataContext';
+import { useToast } from '@/components/ui/use-toast';
 
 export const Form_Employee = () => {
+  const { toast } = useToast();
   const { setEmployee } = useContext(DataContext);
   const formik = useFormik({
     initialValues: {
@@ -32,7 +34,7 @@ export const Form_Employee = () => {
         }
         actions.resetForm();
       } else {
-        alert(response.error);
+        toast({ variant: 'destructive', title: response.error });
       }
     },
   });

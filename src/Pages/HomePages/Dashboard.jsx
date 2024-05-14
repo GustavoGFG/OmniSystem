@@ -65,6 +65,15 @@ const Dashboard = () => {
   const [filteredMistakes, setFilteredMistakes] = useState([]);
   const [averageMistakes, setAverageMistakes] = useState([]);
   //
+  const formatCaption = (date, options) => {
+    date = format(date, 'MMMM yyyy', { locale: options?.locale });
+    return (
+      <>
+        <span>{capitalizeWords(date)}</span>
+      </>
+    );
+  };
+  //
   useEffect(() => {
     var sumaryTable = createSumaryTable(goals, sales, mistakes);
     setData(sumaryTable);
@@ -81,7 +90,7 @@ const Dashboard = () => {
       })
     );
     setAverageMistakes(createAverageMistakeOfEmployee(employee, date));
-  }, [date, goals, sales, mistakes]);
+  }, [date, goals, sales, mistakes, employee]);
 
   return (
     <>
@@ -102,12 +111,16 @@ const Dashboard = () => {
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0">
             <Calendar
+              locale={ptBR}
               mode="single"
               fromMonth={new Date(2024, 0)}
               toDate={new Date(2024, 1, 29)}
+              formatters={{ formatCaption }}
               selected={date}
               onSelect={e => {
-                setDate(e);
+                if (e != date) {
+                  setDate(e);
+                }
                 setCalendarOpen(false);
               }}
               className="rounded-md border"
@@ -176,6 +189,7 @@ const Dashboard = () => {
                 title: 'Vendas x Meta',
                 saleArray: data
                   .filter(day => {
+                    console.log('DATA NO GETMONTH: ', date);
                     return (
                       parseInt(date.getMonth() + 1) ==
                       parseInt(day.date.split('-')[1])
@@ -186,6 +200,7 @@ const Dashboard = () => {
                   }),
                 goalArray: data
                   .filter(day => {
+                    console.log('DATA NO GETMONTH: ', date);
                     return (
                       parseInt(date.getMonth() + 1) ==
                       parseInt(day.date.split('-')[1])

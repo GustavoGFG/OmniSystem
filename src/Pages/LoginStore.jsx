@@ -4,8 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { login, signup } from '@/api/login-signup';
 import { useState } from 'react';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/components/ui/use-toast';
 
 const LoginStore = () => {
+  const { toast } = useToast();
   const [registered, setRegistered] = useState(true);
   const [loading, setLoading] = useState(false);
   const [cpf, setCpf] = useState('');
@@ -16,16 +19,20 @@ const LoginStore = () => {
     setLoading(true);
     const response = await login(cpf, password, navigate);
     setLoading(false);
-    if (response) {
+    if (response.success) {
       navigate('/home/dashboard'); // Redirect to '/home/dashboard' after successful login
+    } else {
+      toast({ variant: 'destructive', title: response.error });
     }
   };
   const handleSignup = async () => {
     setLoading(true);
     const response = await signup(cpf, password, navigate);
     setLoading(false);
-    if (response) {
+    if (response.success) {
       navigate('/home/dashboard'); // Redirect to '/home/dashboard' after successful login
+    } else {
+      toast({ variant: 'destructive', title: response.error });
     }
   };
 
@@ -100,6 +107,7 @@ const LoginStore = () => {
           Forgot Password?
         </button>
       </div>
+      <Toaster />
     </div>
   );
 };

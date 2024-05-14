@@ -18,12 +18,13 @@ export const addSales = async array => {
     });
     return json.data;
   } catch (error) {
-    alert(error.response.data.error);
-    if (
-      (error.response.data.error = 'There is a unique constraint violation')
-    ) {
-      return { success: false, error: 'Data já cadastrada' };
-    }
-    return { success: false, error: 'Erro no servidor' };
+    // alert(error.response.data.error);
+    // if (
+    //   (error.response.data.error = 'There is a unique constraint violation')
+    // ) {
+    //   return { success: false, error: 'Data já cadastrada' };
+    // }
+    // return { success: false, error: 'Erro no servidor' };
+    return { success: false, error: error.response.data.error };
   }
 };
