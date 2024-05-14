@@ -14,6 +14,7 @@ import { Form_Modal } from '@/components/Global/Form_Modal';
 import FormikSale from '@/components/DSR/FormikSale';
 import FormikGoal from '@/components/DSR/FormikGoal';
 import { Table_DSR } from '@/components/DSR/Tables/Table_DSR';
+import { Toaster } from '@/components/ui/toaster';
 
 const DSR = () => {
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -65,7 +66,7 @@ const DSR = () => {
           modal_title="Novo Relatório"
           modal_description="Registre novo relatório diário"
           children={setOpen => <FormikSale setOpen={setOpen} />}
-          width={800}
+          width={1200}
         />
       </div>
       <div id="table">
@@ -88,6 +89,7 @@ const DSR = () => {
           children={data => <Table_DSR props={data} />}
         />
       </div>
+      <Toaster />
     </>
   );
 };

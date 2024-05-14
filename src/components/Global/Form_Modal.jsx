@@ -28,7 +28,7 @@ export const Form_Modal = ({
         </Button>
       </DialogTrigger>
       <DialogContent
-        className={`overflow-auto min-w-[${width}px] max-h-[95dvh]`}
+        className={`overflow-auto max-w-[800px] min-w-fit max-h-[95dvh] rounded-xl`}
       >
         <DialogHeader className="mb-[0px]">
           <DialogTitle>{modal_title}</DialogTitle>

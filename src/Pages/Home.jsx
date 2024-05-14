@@ -26,6 +26,8 @@ const Home = () => {
       if (goalsData.success) setGoals(goalsData.data);
       if (employeeData.success) setEmployee(employeeData.data);
     };
+    console.log(mistakes);
+    console.log(employee);
 
     fetchData();
   }, []);

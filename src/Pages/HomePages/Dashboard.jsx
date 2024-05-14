@@ -26,30 +26,62 @@ import Table_DailyMistakes from '@/components/Dashboard/Tables/Table_DailyMistak
 import Chart_HBar from '@/components/Dashboard/Charts/Chart_HBar';
 import Chart_RBar from '@/components/Dashboard/Charts/Chart_RBar';
 import Chart_AreaLine from '@/components/Dashboard/Charts/Chart_AreaLine';
+import {
+  createAverageMistakeOfEmployee,
+  createSumaryTable,
+} from '@/utils/sumaryTable';
+import { useContext } from 'react';
+import { DataContext } from '@/contexts/DataContext';
+import { ptBR } from 'date-fns/locale';
+import { capitalizeWords, sortByKey } from '@/utils/utils';
 
 const Dashboard = () => {
   const [calendarOpen, setCalendarOpen] = useState(false);
-  const [date, setDate] = useState(new Date(2023, 0, 1));
-  const [day, setDay] = useState('05/01/2023');
-  var filteredDay = sales.find(sale => {
-    return sale.date === day;
-  });
+  const [date, setDate] = useState(new Date(2024, 0, 1));
+  const [day, setDay] = useState('02/01/2024');
+  // var filteredDay = sales.find(sale => {
+  //   return sale.date === day;
+  // });
+  // useEffect(() => {
+  // setDay(format(date, 'dd/MM/yyyy'));
+  // filteredDay = sales.find(sale => {
+  //     return sale.date === day;
+  //   });
+  // }, [date]);
 
+  // const staffInfo = staff;
+
+  // const filteredSales = sales.map(sale => {
+  //   return sale.sale;
+  // });
+  // const filteredGoals = sales.map(sale => {
+  //   return sale.goal;
+  // });
+  //
+  const { goals, sales, mistakes, employee } = useContext(DataContext);
+
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filteredMistakes, setFilteredMistakes] = useState([]);
+  const [averageMistakes, setAverageMistakes] = useState([]);
+  //
   useEffect(() => {
-    setDay(format(date, 'dd/MM/yyyy'));
-    filteredDay = sales.find(sale => {
-      return sale.date === day;
-    });
-  }, [date]);
-
-  const staffInfo = staff;
-
-  const filteredSales = sales.map(sale => {
-    return sale.sale;
-  });
-  const filteredGoals = sales.map(sale => {
-    return sale.goal;
-  });
+    var sumaryTable = createSumaryTable(goals, sales, mistakes);
+    setData(sumaryTable);
+    if (sumaryTable.length > 0) {
+      setFilteredData(
+        sumaryTable.find(day => {
+          return day.date.split('T')[0] == format(date, 'yyyy-MM-dd');
+        })
+      );
+    }
+    setFilteredMistakes(
+      mistakes.filter(mistake => {
+        return mistake.date.split('T')[0] == format(date, 'yyyy-MM-dd');
+      })
+    );
+    setAverageMistakes(createAverageMistakeOfEmployee(employee, date));
+  }, [date, goals, sales, mistakes]);
 
   return (
     <>
@@ -71,8 +103,8 @@ const Dashboard = () => {
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
-              fromMonth={new Date(2023, 0)}
-              toDate={new Date(2023, 0, 31)}
+              fromMonth={new Date(2024, 0)}
+              toDate={new Date(2024, 1, 29)}
               selected={date}
               onSelect={e => {
                 setDate(e);
@@ -90,21 +122,23 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Venda',
-                value: filteredDay.sale,
+                value: filteredData.value,
                 icon: <DollarSign size={40} />,
-                reference: filteredDay.goal,
+                reference: filteredData.goal,
                 date: 'Hoje',
               }}
               children={data => <MiniCardInfo props={data} />}
             />
           </div>
+          {/* {filteredData.length != [] && (
+            <> */}
           <div className="col-span-4 min-[680px]:col-span-2 min-[1700px]:col-span-1">
             <Card
               props={{
                 title: 'Transações',
-                value: filteredDay.transactions,
+                value: filteredData.transactions,
                 icon: <Users size={40} />,
-                reference: 500,
+                reference: filteredData.transactions_goal,
                 date: 'Hoje',
               }}
               children={data => <MiniCardInfo props={data} />}
@@ -114,9 +148,9 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Ticket Médio',
-                value: filteredDay.averageTicket,
+                value: filteredData.at,
                 icon: <ShoppingCart size={40} />,
-                reference: 33,
+                reference: filteredData.at_goal,
                 date: 'Hoje',
               }}
               children={data => <MiniCardInfo props={data} />}
@@ -126,9 +160,9 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Agregações',
-                value: filteredDay.modifierPercentage,
+                value: filteredData.addons,
                 icon: <Utensils size={40} />,
-                reference: 0.1,
+                reference: filteredData.addons_goal,
                 date: 'Hoje',
               }}
               children={data => <MiniCardInfo props={data} />}
@@ -140,9 +174,27 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Vendas x Meta',
-                saleArray: filteredSales,
-                goalArray: filteredGoals,
-                date: 'Janeiro',
+                saleArray: data
+                  .filter(day => {
+                    return (
+                      parseInt(date.getMonth() + 1) ==
+                      parseInt(day.date.split('-')[1])
+                    );
+                  })
+                  .map(day => {
+                    return day.value;
+                  }),
+                goalArray: data
+                  .filter(day => {
+                    return (
+                      parseInt(date.getMonth() + 1) ==
+                      parseInt(day.date.split('-')[1])
+                    );
+                  })
+                  .map(day => {
+                    return day.goal;
+                  }),
+                date: capitalizeWords(format(date, 'MMMM', { locale: ptBR })),
               }}
               children={data => <Chart_AreaLine props={data} />}
             />
@@ -151,7 +203,7 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Food Attach',
-                foodAttach: filteredDay.foodAttachPercentage,
+                foodAttach: filteredData.food_attach,
                 reference: 0.7,
                 date: 'Hoje',
               }}
@@ -161,25 +213,36 @@ const Dashboard = () => {
         </div>
         <div id="third-row" className="grid grid-cols-4 gap-[20px]">
           <div className="col-span-4 min-[1600px]:col-span-2">
+            {/* {filteredMistakes.length > 0 && ( */}
             <Card
               props={{
                 title: 'Mistakes',
-                dayInfo: filteredDay,
-                staffInfo: staffInfo,
+                dayInfo: sortByKey(filteredMistakes, 'receipt', false),
+                // staffInfo: employee,
                 date: 'Hoje',
               }}
               children={data => <Table_DailyMistakes props={data} />}
             />
+            {/* )} */}
+            {/* <Card
+              props={{
+                title: 'Mistakes',
+                dayInfo: filteredData,
+                staffInfo: employee,
+                date: 'Hoje',
+              }}
+              children={data => <Table_DailyMistakes props={data} />}
+            /> */}
           </div>
           <div className="col-span-4 min-[650px]:col-span-2 min-[1600px]:col-span-1">
             <Card
               props={{
                 title: 'Top 5 Mistakes',
-                staffInfo: staffInfo,
+                staffInfo: averageMistakes,
                 typeOfData: 'Mistake',
                 reversed: true,
                 color: '#ef4444',
-                date: 'Janeiro',
+                date: capitalizeWords(format(date, 'MMMM', { locale: ptBR })),
               }}
               children={data => <Chart_HBar props={data} />}
             />
@@ -188,11 +251,11 @@ const Dashboard = () => {
             <Card
               props={{
                 title: 'Top 5 Ticket Médio',
-                staffInfo: staffInfo,
+                staffInfo: averageMistakes,
                 typeOfData: 'Ticket',
                 reversed: false,
                 color: '#007041',
-                date: 'Janeiro',
+                date: capitalizeWords(format(date, 'MMMM', { locale: ptBR })),
               }}
               children={data => <Chart_HBar props={data} />}
             />

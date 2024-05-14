@@ -7,8 +7,11 @@ import { DialogClose } from '../ui/dialog';
 import { addGoals } from '@/api/goals';
 import { Formik_Input } from '../Global/Formik_Input';
 import { Formik_Calendar } from '../Global/Formik_Calendar';
+import { useToast } from '../ui/use-toast';
+import { Toaster } from '../ui/toaster';
 
 const FormikGoal = () => {
+  const { toast } = useToast();
   const formik = useFormik({
     initialValues: {
       date: '',
@@ -24,7 +27,9 @@ const FormikGoal = () => {
       if (response.success) {
         actions.resetForm();
       } else {
-        alert(response.error);
+        // alert('ERRO:');
+        toast({ variant: 'destructive', description: response.error });
+        // alert(response.error);
       }
     },
   });

@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 export const createSumaryTable = (goals, sales, mistakes) => {
   const table = [];
   for (let goal of goals) {
@@ -48,4 +50,49 @@ export const createSumaryTable = (goals, sales, mistakes) => {
   return table.filter(sale => {
     return sale.value > 0;
   });
+};
+
+export const createAverageMistakeOfEmployee = (employees, date) => {
+  const processedData = employees.map(employee => {
+    const obj = { ...employee };
+    // GERANDO MISTAKE MÉDIO
+    obj.averageMistake =
+      employee.Mistake.length == 0
+        ? 0
+        : employee.Mistake.reduce((accumulator, mistake) => {
+            if (
+              mistake.date.split('T')[0].split('-')[1] ==
+              format(date, 'yyyy-MM-dd').split('-')[1]
+            ) {
+              accumulator += mistake.value;
+            }
+            return accumulator;
+          }, 0) / employee.Sale.length;
+
+    // GERANDO MÉDIA DO TICKET MÉDIO
+    obj.average_ticket =
+      employee.Sale.length == 0
+        ? 0
+        : employee.Sale.reduce((accumulator, sale) => {
+            if (
+              sale.date.split('T')[0].split('-')[1] ==
+              format(date, 'yyyy-MM-dd').split('-')[1]
+            ) {
+              accumulator += sale.value;
+            }
+            return accumulator;
+          }, 0) /
+          employee.Sale.reduce((accumulator, sale) => {
+            if (
+              sale.date.split('T')[0].split('-')[1] ==
+              format(date, 'yyyy-MM-dd').split('-')[1]
+            ) {
+              accumulator += sale.transaction;
+            }
+            return accumulator;
+          }, 0);
+
+    return obj;
+  });
+  return processedData;
 };

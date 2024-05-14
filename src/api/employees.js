@@ -1,4 +1,4 @@
-import { req } from './axios';
+import { req, reqdev } from './axios';
 
 export const getEmployees = async () => {
   try {

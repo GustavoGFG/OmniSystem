@@ -22,7 +22,7 @@ export const Form_Sale = ({
   const [saleIndex, setSaleIndex] = useState(null);
   return (
     <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-col md:flex-row">
         <Formik_Calendar formik={formik} formikKey={'date'} />
         <Selector_Employee
           formik={formik}
@@ -71,7 +71,7 @@ export const Form_Sale = ({
           </Button>
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-col md:flex-row">
         <Formik_Input
           label="Valor da Venda"
           type="text"
@@ -87,7 +87,7 @@ export const Form_Sale = ({
           transform={transformToInteger}
         />
       </div>
-      <div className="flex w-full gap-2">
+      <div className="flex w-full flex-col gap-2 md:flex-row">
         <Formik_Input
           label="Food Attach"
           type="text"
