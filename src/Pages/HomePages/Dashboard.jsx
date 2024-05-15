@@ -18,9 +18,6 @@ import {
 import { cn } from '@/lib/utils';
 import MiniCardInfo from '@/components/Dashboard/MiniCardInfo';
 
-import { sales } from '@/data/dailySales';
-import { staff } from '@/data/staff';
-
 import React, { useEffect, useState } from 'react';
 import Table_DailyMistakes from '@/components/Dashboard/Tables/Table_DailyMistakes';
 import Chart_HBar from '@/components/Dashboard/Charts/Chart_HBar';
@@ -38,26 +35,7 @@ import { capitalizeWords, sortByKey } from '@/utils/utils';
 const Dashboard = () => {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [date, setDate] = useState(new Date(2024, 0, 1));
-  const [day, setDay] = useState('02/01/2024');
-  // var filteredDay = sales.find(sale => {
-  //   return sale.date === day;
-  // });
-  // useEffect(() => {
-  // setDay(format(date, 'dd/MM/yyyy'));
-  // filteredDay = sales.find(sale => {
-  //     return sale.date === day;
-  //   });
-  // }, [date]);
 
-  // const staffInfo = staff;
-
-  // const filteredSales = sales.map(sale => {
-  //   return sale.sale;
-  // });
-  // const filteredGoals = sales.map(sale => {
-  //   return sale.goal;
-  // });
-  //
   const { goals, sales, mistakes, employee } = useContext(DataContext);
 
   const [data, setData] = useState([]);
@@ -117,6 +95,7 @@ const Dashboard = () => {
               toDate={new Date(2024, 1, 29)}
               formatters={{ formatCaption }}
               selected={date}
+              required
               onSelect={e => {
                 if (e != date) {
                   setDate(e);
@@ -143,8 +122,6 @@ const Dashboard = () => {
               children={data => <MiniCardInfo props={data} />}
             />
           </div>
-          {/* {filteredData.length != [] && (
-            <> */}
           <div className="col-span-4 min-[680px]:col-span-2 min-[1700px]:col-span-1">
             <Card
               props={{
@@ -189,7 +166,6 @@ const Dashboard = () => {
                 title: 'Vendas x Meta',
                 saleArray: data
                   .filter(day => {
-                    console.log('DATA NO GETMONTH: ', date);
                     return (
                       parseInt(date.getMonth() + 1) ==
                       parseInt(day.date.split('-')[1])
@@ -200,7 +176,6 @@ const Dashboard = () => {
                   }),
                 goalArray: data
                   .filter(day => {
-                    console.log('DATA NO GETMONTH: ', date);
                     return (
                       parseInt(date.getMonth() + 1) ==
                       parseInt(day.date.split('-')[1])
@@ -228,26 +203,15 @@ const Dashboard = () => {
         </div>
         <div id="third-row" className="grid grid-cols-4 gap-[20px]">
           <div className="col-span-4 min-[1600px]:col-span-2">
-            {/* {filteredMistakes.length > 0 && ( */}
             <Card
               props={{
                 title: 'Mistakes',
                 dayInfo: sortByKey(filteredMistakes, 'receipt', false),
-                // staffInfo: employee,
+
                 date: 'Hoje',
               }}
               children={data => <Table_DailyMistakes props={data} />}
             />
-            {/* )} */}
-            {/* <Card
-              props={{
-                title: 'Mistakes',
-                dayInfo: filteredData,
-                staffInfo: employee,
-                date: 'Hoje',
-              }}
-              children={data => <Table_DailyMistakes props={data} />}
-            /> */}
           </div>
           <div className="col-span-4 min-[650px]:col-span-2 min-[1600px]:col-span-1">
             <Card

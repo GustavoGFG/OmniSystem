@@ -18,8 +18,6 @@ export const addMistakes = async array => {
     });
     return json.data;
   } catch (error) {
-    alert(error.response.data.error);
-    console.log(error.response.data.details);
     if (
       (error.response.data.error = 'There is a unique constraint violation')
     ) {

@@ -3,7 +3,6 @@ import React from 'react';
 import { Skeleton } from '../ui/skeleton';
 
 const MiniCardInfo = ({ props }) => {
-  console.log(props.value);
   return (
     <div className="flex gap-3">
       {props.value && !isNaN(props.value) && (

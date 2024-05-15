@@ -18,7 +18,6 @@ export const addGoals = async data => {
     });
     return json.data;
   } catch (error) {
-    // alert(error.response.data.error);
     if (error.response.data.error == 'There is a unique constraint violation') {
       return { success: false, error: 'Data já cadastrada' };
     }
