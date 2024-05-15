@@ -1,6 +1,7 @@
 import React from 'react';
 import { RiMenuLine, RiArrowDownSFill } from '@remixicon/react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dropdown } from './Dropdown';
 
 const Header = ({ sidebarActive, setSidebarActive }) => {
   return (
@@ -21,9 +22,10 @@ const Header = ({ sidebarActive, setSidebarActive }) => {
           <AvatarImage src="../public/profile-3.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <p className="flex text-md font-roboto text-newPrimary font-semibold items-center">
+        {/* <p className="flex text-md font-roboto text-newPrimary font-semibold items-center">
           Rafael M. <RiArrowDownSFill size={20} />
-        </p>
+        </p> */}
+        <Dropdown />
       </div>
     </header>
   );
