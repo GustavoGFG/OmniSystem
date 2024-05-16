@@ -9,6 +9,7 @@ import Dashboard from './Pages/HomePages/Dashboard';
 import DSR from './Pages/HomePages/DSR';
 import Employee from './Pages/HomePages/Employee';
 import RequestProducts from './Pages/HomePages/RequestProducts';
+import ExpiryControl from './Pages/HomePages/ExpiryControl';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="salesreport" element={<DSR />} />
           <Route path="requestproducts" element={<RequestProducts />} />
+          <Route path="expirycontrol" element={<ExpiryControl />} />
           <Route path="employees" element={<Employee />} />
         </Route>
       </Routes>

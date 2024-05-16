@@ -8,7 +8,11 @@ export const links = [
   { name: 'Requisição', page: '/home/requestproducts', icon: 'bi bi-boxes' },
   { name: 'Break | Markout', page: '/home', icon: 'bi bi-cup-hot' },
   { name: 'Rastreabilidade', page: '/home', icon: 'bi bi-upc-scan' },
-  { name: 'Controle de Validades', page: '/home', icon: 'bi bi-calendar3' },
+  {
+    name: 'Controle de Validades',
+    page: '/home/expirycontrol',
+    icon: 'bi bi-calendar3',
+  },
   { name: 'Inventário', page: '/home', icon: 'bi bi-list-check' },
   {
     name: 'Funcionários e Certificações',
