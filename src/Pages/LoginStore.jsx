@@ -39,7 +39,7 @@ const LoginStore = () => {
   return (
     <div className="overflow-y-hidden lg:max-h-screen min-h-screen w-full flex flex-col  px-2  py-[80px] items-center justify-center gap-0 md:gap-[60px] md:flex-row 2xl:px-[400px] xl:px-[200px] lg:px-[100px] md:px-5">
       <img
-        src="../public/logo.png"
+        src="../logo.png"
         className="fixed left-0 bottom-0 translate-x-[-30%] translate-y-[30%] w-[60vw] blur-lg opacity-20 md:block hidden"
       ></img>
       <div className="flex-col text-center md:text-start items-center justify-center md:flex-1 px-[0%] w-[330px] md:w-[400px] md:m-auto">
@@ -55,7 +55,7 @@ const LoginStore = () => {
       <div className="z-1 m-0 flex flex-col items-center justify-center py-[100px] gap-6 w-[400px] max-w-full h-full max-h-[600px] bg-[white] shadow-md shadow-emerald-900 rounded-md px-10">
         <Avatar className="w-[150px] h-[150px] mb-10 overflow-visible">
           {/* <AvatarImage src="https://logodownload.org/wp-content/uploads/2014/07/Starbucks-logo.png" /> */}
-          <AvatarImage src="../public/logo.png" />
+          <AvatarImage src="../logo.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <input

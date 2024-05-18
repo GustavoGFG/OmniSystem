@@ -19,7 +19,7 @@ const Header = ({ sidebarActive, setSidebarActive }) => {
       <div className="flex items-center gap-3">
         <Avatar>
           {/* <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" /> */}
-          <AvatarImage src="../public/profile-3.png" />
+          <AvatarImage src="../profile-3.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         {/* <p className="flex text-md font-roboto text-newPrimary font-semibold items-center">
