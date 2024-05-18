@@ -16,6 +16,7 @@ export const Form_Modal = ({
   modal_description,
   children,
   child_props,
+  icon,
   width,
 }) => {
   const [open, setOpen] = useState(false);
@@ -23,8 +24,13 @@ export const Form_Modal = ({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="omnisystem" className="flex gap-[7px] mb-[30px]">
-          <PlusCircle className="w-5" />
-          <span>{button_title}</span>
+          {icon}
+
+          <span
+            className={`${['Nova Validade', 'Novo Produto', 'Nova Categoria'].includes(button_title) ? 'hidden md:block' : 'block'}`}
+          >
+            {button_title}
+          </span>
         </Button>
       </DialogTrigger>
       <DialogContent

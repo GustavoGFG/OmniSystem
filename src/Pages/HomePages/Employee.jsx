@@ -5,6 +5,7 @@ import { Form_Modal } from '@/components/Global/Form_Modal';
 import { Table_Employee } from '@/components/Employee/Tables/Table_Employee';
 import { Toast } from '@/components/ui/toast';
 import { Toaster } from '@/components/ui/toaster';
+import { PlusCircle } from 'lucide-react';
 
 const Employee = () => {
   return (
@@ -14,6 +15,7 @@ const Employee = () => {
       </div>
       <div className="flex justify-between font-bold text-newPrimary font-nunito text-2xl mb-[30px] px-[10px]">
         <Form_Modal
+          icon={<PlusCircle className="w-5" />}
           button_title="Novo Colaborador"
           modal_title="Novo Colaborador"
           modal_description="Cadastre um novo colaborador"

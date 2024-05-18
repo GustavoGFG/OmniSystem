@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Form_Modal } from '@/components/Global/Form_Modal';
 import FormikSale from '@/components/DSR/FormikSale';
@@ -55,6 +55,7 @@ const DSR = () => {
       </div>
       <div className="flex justify-between">
         <Form_Modal
+          icon={<PlusCircle className="w-5" />}
           button_title="Nova Meta"
           modal_title="Nova Meta"
           modal_description="Registre as metas do dia"
@@ -62,6 +63,7 @@ const DSR = () => {
           width={400}
         />
         <Form_Modal
+          icon={<PlusCircle className="w-5" />}
           button_title="Novo Relatório"
           modal_title="Novo Relatório"
           modal_description="Registre novo relatório diário"

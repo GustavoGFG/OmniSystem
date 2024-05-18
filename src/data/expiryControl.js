@@ -83,4 +83,10 @@ export const expiryDates = [
     expiry_date: '2024-5-23',
     produced_date: '2024-2-23',
   },
+  {
+    id: 8,
+    product_id: 3,
+    expiry_date: '2024-5-24',
+    produced_date: '2024-2-24',
+  },
 ];

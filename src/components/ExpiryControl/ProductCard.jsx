@@ -17,7 +17,7 @@ const ProductCard = ({ date }) => {
               return item.id == date.product_id;
             }).image
           }
-          className="w-20 h-20 rounded-md shadow-black/30 shadow-md"
+          className="w-[60px] h-[60px] rounded-md shadow-black/30 shadow-md"
         />
         <div className="flex flex-col justify-between py-1 text-[12px] md:text-sm text-slate-800/80">
           <h2>
@@ -37,10 +37,19 @@ const ProductCard = ({ date }) => {
       </div>
       <div className="flex items-center gap-1 md:gap-4 text-[12px] md:text-sm">
         <div className="flex flex-col md:flex-row min-w-[60px]">
-          <p className=" text-slate-800/80">{'Vence em:  '}</p>
-          <span
-            className={`${date.days_left <= date.remove_days_before_expire ? 'text-red-500' : 'text-green-600'} font-bold`}
-          >{`${date.days_left} dias`}</span>
+          {date.days_left < 0 && (
+            <p className="font-bold text-red-500">Vencido</p>
+          )}
+          {date.days_left >= 0 && (
+            <>
+              <p className=" text-slate-800/80">{'Vence em:  '}</p>
+              <span
+                className={`${date.days_left <= date.remove_days_before_expire ? 'text-red-500' : 'text-green-600'} font-bold`}
+              >
+                {`${date.days_left} ${date.days_left == 1 ? 'dia' : 'dias'}`}
+              </span>
+            </>
+          )}
         </div>
         <Button className="disabled:opacity-10" variant="ghost" type="button">
           <Trash2 />
